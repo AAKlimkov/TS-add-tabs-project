@@ -1,7 +1,7 @@
 {
   "name": "typescript",
   "version": "1.0.0",
-  "description": "Understanding TypeScript Course Setup",
+  "description": "TypeScript",
   "main": "app.js",
   "scripts": {
     "start": "lite-server"

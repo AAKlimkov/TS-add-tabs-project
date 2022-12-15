@@ -1,3 +1,35 @@
+//Validation
+interface Validatable {
+    value: string | number
+    required?: boolean
+    minLength?: number
+    maxLength?: number
+    min?: number
+    max?: number
+}
+
+function validate(input: Validatable) {
+    let isValid = true
+    if (input.required) {
+        isValid = isValid && input.value.toString().trim().length !== 0
+    }
+    if (input.minLength != null && typeof input.value === 'string') {
+        isValid = isValid && input.value.trim().length > input.minLength
+    }
+    if (input.maxLength != null && typeof input.value === 'string') {
+        isValid = isValid && input.value.trim().length < input.maxLength
+    }
+
+    if (input.min != null && typeof input.value === 'number') {
+        isValid = isValid && input.value > input.min
+    }
+    if (input.max != null && typeof input.value === 'number') {
+        isValid = isValid && input.value < input.max
+    }
+
+    return isValid
+}
+
 // autobind decorator
 function autobind(_target: any, _methodName: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value
@@ -40,7 +72,24 @@ class formInput {
         const enteredTitle = this.titleElementInput.value
         const enteredDescription = this.titleElementInput.value
         const enteredPeople = this.peopleElementInput.value
-        if (!enteredTitle.trim() || !enteredDescription.trim() || enteredPeople.trim().length === 0) {
+
+        const titleValidation: Validatable = {
+            value: enteredTitle,
+            required: true,
+        }
+        const descriptionValidation: Validatable = {
+            value: enteredTitle,
+            required: true,
+        }
+        const peopleValidation: Validatable = {
+            value: enteredTitle,
+            required: true,
+            min: 1
+        }
+
+        if (
+            !validate(titleValidation) || !validate(descriptionValidation) || !validate(peopleValidation)
+        ) {
             alert('invalid inputs')
             return
         } else {
